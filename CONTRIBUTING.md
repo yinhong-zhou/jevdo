@@ -37,5 +37,3 @@ PR 请描述行为变化与验证证据。代码改动运行检查并验证新�
 ## 来源与上游协作
 
 本项目基于 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)，并适配了官方 Loop 生命周期。引入或更新上游代码时，保留版权、许可、来源版本与本地适配说明，见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。原生 DSH 也能复现的问题，可遵循上游参与方式提供最小复现。
-
-[MU](https://github.com/qybaihe/mu) 是 Jev 判断机制的设计参考；MU 源码与 35 个判断点的整合属于独立的 [JevDo Harness](https://github.com/yinhong-zhou/jevdo-harness)。涉及该整合的改动应在对应仓库讨论。

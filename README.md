@@ -152,7 +152,4 @@ npm run build
 
 ## 来源与协议
 
-MIT。感谢以下项目的作者与贡献者：
-
-- [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)：插件与 Agent 运行底座。本项目适配了其官方 Loop 生命周期代码，原版权与来源保留在 [第三方声明](THIRD_PARTY_NOTICES.md) 和 [适配代码](src/vendor/dsh-loop)。
-- [MU](https://github.com/qybaihe/mu)：Jev 参与 Harness 判断机制的设计参考。这里是专注 Action 的轻量 JevDo；MU 判断内核与 35 个判断点的代码整合位于独立的 [JevDo Harness](https://github.com/yinhong-zhou/jevdo-harness) 仓库。
+MIT。感谢 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的作者与贡献者提供插件与 Agent 运行底座。本项目适配了其官方 Loop 生命周期代码，原版权与来源保留在 [第三方声明](THIRD_PARTY_NOTICES.md) 和 [适配代码](src/vendor/dsh-loop)。

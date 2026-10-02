@@ -150,7 +150,4 @@ Learned recipes currently use fixed commands and project bindings. Arbitrary lea
 
 ## License and credits
 
-MIT. Thanks to the authors and contributors of:
-
-- [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness), the plugin and agent runtime foundation. This project adapts its official loop lifecycle; copyright and provenance remain in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and the [vendored loop](src/vendor/dsh-loop).
-- [MU](https://github.com/qybaihe/mu), a design reference for using Jev in harness judgments. This repository is the lightweight Action-focused JevDo. The integration of MU's judgment kernel and 35 decision points lives in the separate [JevDo Harness](https://github.com/yinhong-zhou/jevdo-harness) repository.
+MIT. Thanks to the authors and contributors of [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) for the plugin and agent runtime foundation. This project adapts its official loop lifecycle; copyright and provenance remain in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and the [vendored loop](src/vendor/dsh-loop).

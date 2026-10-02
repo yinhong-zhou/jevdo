@@ -37,5 +37,3 @@ Performance claims should state controls, task counts, cold/warm conditions, and
 ## Sources and upstream collaboration
 
 This project builds on [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) and adapts its official loop lifecycle. Preserve copyright, licenses, source revisions and adaptation notes when importing or updating code; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Problems reproducible in stock DSH can be raised upstream with a minimal reproduction and its participation guidelines.
-
-[MU](https://github.com/qybaihe/mu) is a design reference for Jev judgments. The integration of MU code and its 35 judgment points belongs to the separate [JevDo Harness](https://github.com/yinhong-zhou/jevdo-harness) repository; discuss those changes there.
