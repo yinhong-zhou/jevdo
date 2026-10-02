@@ -12,9 +12,9 @@
 <p align="center"><em>Just Jev it.</em></p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-24292f?style=flat-square" alt="MIT license"></a>
-  <a href="docs/REFERENCE.md"><img src="https://img.shields.io/badge/DSH-0.2.0--rc.1-9b8deb?style=flat-square" alt="DSH 0.2.0-rc.1"></a>
-  <a href="package.json"><img src="https://img.shields.io/badge/Node.js-24.14%2B-24292f?style=flat-square" alt="Node.js 24.14+"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-d8c9ed?style=flat-square&amp;labelColor=eee8f6" alt="MIT license"></a>
+  <a href="docs/REFERENCE.md"><img src="https://img.shields.io/badge/DSH-0.2.0--rc.1-c8cdf2?style=flat-square&amp;labelColor=e9eafb" alt="DSH 0.2.0-rc.1"></a>
+  <a href="package.json"><img src="https://img.shields.io/badge/Node.js-24.14%2B-c6e3f3?style=flat-square&amp;labelColor=e7f1f8" alt="Node.js 24.14+"></a>
 </p>
 
 <p align="center">
