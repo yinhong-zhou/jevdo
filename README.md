@@ -21,10 +21,10 @@
   <b>简体中文</b> · <a href="README.en.md">English</a>
 </p>
 <p align="center">
-  <a href="#接力长什么样">使用场景</a> · <a href="#快速开始">快速开始</a> · <a href="#一轮是怎么走的">工作方式</a> · <a href="#实测">实验结果</a>
+  <a href="#接力长什么样">使用场景</a> · <a href="#快速开始">快速开始</a> · <a href="#一轮是怎么走的">工作方式</a> · <a href="#实测">实验结果</a> · <a href="CONTRIBUTING.md">贡献指南</a>
 </p>
 
-**你的 Agent 能写出复杂的程序，却记不住自己昨天怎么启动它。** 第十次打开同一个项目，它还在读配置、找脚本、拼命令，把上周已经走通的路再想一遍。JevDo 在调用大模型之前，先让 **Jev** 判断：这件事，是不是已经会了？已有操作能处理，就直接调度执行；遇到新问题，再交给主模型。主模型把值得复用的做法保存为 **Action**，经过验证，留给下一次会话。
+**会做的事，为什么还要再想一遍？** 第十次打开同一个项目，它还在读配置、找脚本、拼命令，把上周已经走通的路再想一遍。JevDo 在调用大模型之前，先让 **Jev** 判断：这件事，是不是已经会了？已有操作能处理，就直接调度执行；遇到新问题，再交给主模型。主模型把值得复用的做法保存为 **Action**，经过验证，留给下一次会话。
 
 ## 接力长什么样
 
@@ -140,6 +140,8 @@ npm run demo
 
 [配置与实现参考](docs/REFERENCE.md) · [Action 规格](docs/ACTION_SPEC.md) · [使用场景](docs/ACTION_USAGE.md) · [反馈问题](https://github.com/yinhong-zhou/jevdo/issues)
 
+欢迎提交 Action 示例、复现用例、Loop 修复与文档改进。开发约定与上游协作方式见 [贡献指南](CONTRIBUTING.md)。
+
 ```bash
 npm run check
 npm test
@@ -150,4 +152,7 @@ npm run build
 
 ## 来源与协议
 
-MIT。基于 DeepSeek Harness 的插件机制，并适配其官方 Loop 生命周期代码；上游版权与来源保留在 [第三方声明](THIRD_PARTY_NOTICES.md) 和 [适配代码](src/vendor/dsh-loop)。
+MIT。感谢以下项目的作者与贡献者：
+
+- [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)：插件与 Agent 运行底座。本项目适配了其官方 Loop 生命周期代码，原版权与来源保留在 [第三方声明](THIRD_PARTY_NOTICES.md) 和 [适配代码](src/vendor/dsh-loop)。
+- [MU](https://github.com/qybaihe/mu)：Jev 参与 Harness 判断机制的设计参考。这里是专注 Action 的轻量 JevDo；MU 判断内核与 35 个判断点的代码整合位于独立的 [JevDo Harness](https://github.com/yinhong-zhou/jevdo-harness) 仓库。

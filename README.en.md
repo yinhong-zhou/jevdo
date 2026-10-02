@@ -21,10 +21,10 @@
   <a href="README.md">简体中文</a> · <b>English</b>
 </p>
 <p align="center">
-  <a href="#the-handoff-in-practice">Use cases</a> · <a href="#quick-start">Quick start</a> · <a href="#the-loop">The loop</a> · <a href="#early-results">Results</a>
+  <a href="#the-handoff-in-practice">Use cases</a> · <a href="#quick-start">Quick start</a> · <a href="#the-loop">The loop</a> · <a href="#early-results">Results</a> · <a href="CONTRIBUTING.en.md">Contributing</a>
 </p>
 
-**Your agent can write the application. Tomorrow, it may still have to rediscover how to start it.** Read the config, find the script, assemble the command, inspect the result. JevDo asks a question before calling the main model: do we already know how to do this? Jev selects reusable operations when they fit and calls the main model for new work. As that model solves problems, it saves suitable operations as verified **Actions**, ready for another session.
+**Why think through an operation you already know how to do?** Read the config, find the script, assemble the command, inspect the result. JevDo asks a question before calling the main model: do we already know how to do this? Jev selects reusable operations when they fit and calls the main model for new work. As that model solves problems, it saves suitable operations as verified **Actions**, ready for another session.
 
 ## The handoff in practice
 
@@ -138,6 +138,8 @@ For live Jev calls, configure `TYPESAFE_API_KEY`. The experimental CLI also read
 
 ## Development
 
+Action examples, reproductions, loop fixes and documentation improvements are welcome. See the [contribution guide](CONTRIBUTING.en.md) for development conventions and working with upstream projects.
+
 ```bash
 npm run check
 npm test
@@ -148,4 +150,7 @@ Learned recipes currently use fixed commands and project bindings. Arbitrary lea
 
 ## License and credits
 
-MIT. Built on DeepSeek Harness with an adapted copy of its official loop lifecycle. Upstream copyright and provenance are retained in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and the [vendored loop](src/vendor/dsh-loop).
+MIT. Thanks to the authors and contributors of:
+
+- [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness), the plugin and agent runtime foundation. This project adapts its official loop lifecycle; copyright and provenance remain in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and the [vendored loop](src/vendor/dsh-loop).
+- [MU](https://github.com/qybaihe/mu), a design reference for using Jev in harness judgments. This repository is the lightweight Action-focused JevDo. The integration of MU's judgment kernel and 35 decision points lives in the separate [JevDo Harness](https://github.com/yinhong-zhou/jevdo-harness) repository.
