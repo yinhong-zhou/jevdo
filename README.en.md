@@ -21,18 +21,66 @@
   <a href="README.md">简体中文</a> · <b>English</b>
 </p>
 <p align="center">
-  <a href="#quick-start">Quick start</a> · <a href="#the-loop">The loop</a> · <a href="#early-results">Results</a> · <a href="docs/ACTION_SPEC.md">Action specification</a>
+  <a href="#the-handoff-in-practice">Use cases</a> · <a href="#quick-start">Quick start</a> · <a href="#the-loop">The loop</a> · <a href="#early-results">Results</a>
 </p>
 
 **Your agent can write the application. Tomorrow, it may still have to rediscover how to start it.** Read the config, find the script, assemble the command, inspect the result. JevDo asks a question before calling the main model: do we already know how to do this? Jev selects reusable operations when they fit and calls the main model for new work. As that model solves problems, it saves suitable operations as verified **Actions**, ready for another session.
+
+## The handoff in practice
+
+Three illustrative workflows, assuming the project already has the corresponding validated Actions.
+
+**① Fix a bug**
+
+“Start the backend, fix the order-list pagination bug, then run unit tests and build.”
+
+```text
+Jev    Start dependencies and services; check readiness  [start-admin-backend]
+  ↓
+Model  Read the issue, locate and fix the pagination bug
+  ↓
+Jev    Test, build, verify exit codes and artifacts      [test-and-build]
+  ↓
+Model  Explain the fix and verification results
+```
+
+**② Fix a failing CI check**
+
+“CI lint failed again. Reproduce it locally, fix it, and verify it passes.”
+
+```text
+Jev    Prepare dependencies; reproduce lint with CI config  [repro-ci-lint]
+  ↓
+Model  Fix the reported errors
+  ↓
+Jev    Rerun lint and pre-push checks                       [verify-before-push]
+  ↓
+Model  Explain the changes and suggest a commit message
+```
+
+**③ Prepare a release**
+
+“Run the release workflow: version, changelog, tag, and build artifacts.”
+
+```text
+Jev    Run regression tests; check release conditions    [regression-gate]
+  ↓
+Model  Review merged changes; update version and CHANGELOG
+  ↓
+Jev    Run the project script to tag, build, and verify   [cut-release]
+  ↓
+Model  Draft the release notes
+```
+
+**Jev schedules repeatable operations; the main model handles new problems.** A full start → code edit → test/build handoff has [run in our experiments](reports/developer-workflows-v3/ANALYSIS.md). When existing Actions cover the entire request and completion checks pass, Jev can finish requests such as “start the project” or “run regression tests” with **zero main-model calls**.
+
+## The loop
 
 - **Jev decides what happens next.** It receives the same assembled conversation and tool history as the main model, then selects an Action, a model call, clarification, or completion.
 - **Actions preserve how to act.** A command or script, its purpose, project binding, and verifier. Simple commands stay simple; complex repeatable workflows are usually better kept in scripts.
 - **The main model solves new problems and maintains the library.** It writes code, reasons, handles failures, and saves reusable operations while working.
 
-> Built on DeepSeek Harness. Early release, focused on headless DSH 0.2.0-rc.1. Package and tool names retain `jevaction`. Action-only requests can finish without a main-model call; once the main model participates, it owns the final response.
-
-## The loop
+> Built on DeepSeek Harness. Early release, focused on headless DSH 0.2.0-rc.1. Package and tool names retain `jevaction`. Once the main model participates, it owns the final response.
 
 ```mermaid
 flowchart LR
@@ -51,14 +99,6 @@ flowchart LR
 ```
 
 Jev selects; code executes. Candidates have registered IDs and concrete parameter sources. Commands still pass through host permissions and verification. Missing bindings, changed implementations, and execution failures return control to the main model.
-
-With the relevant Actions in place, a request such as “start the project, add a function, then test and build” can take this path:
-
-```text
-Jev starts the project → model edits code → Jev tests and builds → model reports
-```
-
-This handoff has run with real Jev and main-model calls. A request covered entirely by existing Actions can complete without the main model.
 
 ## Learning an Action
 
