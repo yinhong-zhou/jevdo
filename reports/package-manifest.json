@@ -1,0 +1,51 @@
+[
+  {
+    "id": "jevaction@0.1.0",
+    "name": "jevaction",
+    "version": "0.1.0",
+    "size": 36324,
+    "unpackedSize": 124614,
+    "shasum": "a618b5e1418009bdb3cc24496a60e94a896f732b",
+    "integrity": "sha512-3LONAi9A+kttrJn2Nk2JaFB7c3HGR6BpAC69c5T2V2Cv/0cLM8CYBT4KsY7N92/pdDdi1P48fDQxVwyQZlobag==",
+    "filename": "jevaction-0.1.0.tgz",
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 1079,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 7196,
+        "mode": 420
+      },
+      {
+        "path": "THIRD_PARTY_NOTICES.md",
+        "size": 1296,
+        "mode": 420
+      },
+      {
+        "path": "cordis.patch.yml",
+        "size": 276,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 109974,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 2055,
+        "mode": 420
+      },
+      {
+        "path": "prompts/action-authoring.md",
+        "size": 2738,
+        "mode": 420
+      }
+    ],
+    "entryCount": 7,
+    "bundled": []
+  }
+]

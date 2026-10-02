@@ -1,0 +1,9 @@
+{
+  "version": "0.2.0-rc.1",
+  "root": "C:\\Users\\ZYH-1\\Desktop\\mywork\\jevaction\\.runtime\\dsh-cli-1790924962815",
+  "success": true,
+  "artifact": "alpha:2",
+  "code": 0,
+  "stdout": "{\"type\":\"session\",\"sessionId\":\"session-5df26e25-9776-406c-bf35-5fab697ac24a\",\"cwd\":\"C:\\\\Users\\\\ZYH-1\\\\Desktop\\\\mywork\\\\jevaction\\\\.runtime\\\\dsh-cli-1790924962815\\\\alpha\"}\n{\"type\":\"status\",\"phase\":\"turn_start\",\"turn\":1}\n{\"type\":\"status\",\"phase\":\"step_start\",\"turn\":1,\"step\":1}\n{\"type\":\"status\",\"phase\":\"step_end\",\"turn\":1,\"step\":1}\n{\"type\":\"status\",\"phase\":\"step_start\",\"turn\":1,\"step\":2}\n{\"type\":\"text\",\"text\":\"build_artifact (alpha)\\nBUILT alpha\\n\\n\\nVERIFIED alpha:2\\n\\n\"}\n{\"type\":\"status\",\"phase\":\"step_end\",\"turn\":1,\"step\":2}\n{\"type\":\"status\",\"phase\":\"turn_end\",\"turn\":1,\"reason\":{\"kind\":\"completed\"}}\n{\"type\":\"final\",\"text\":\"build_artifact (alpha)\\nBUILT alpha\\n\\n\\nVERIFIED alpha:2\\n\\n\"}\n",
+  "stderr": ""
+}

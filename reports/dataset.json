@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "reuse-cn",
+      "kind": "warm",
+      "task": "把 alpha 项目的产物重新构建一次，并验证结果。",
+      "alpha": "alpha:2",
+      "beta": "beta:1"
+    },
+    {
+      "id": "reuse-en",
+      "kind": "warm",
+      "task": "Rebuild the beta project artifact once and verify it.",
+      "alpha": "alpha:1",
+      "beta": "beta:2"
+    },
+    {
+      "id": "active-project",
+      "kind": "warm",
+      "task": "重新生成当前项目的构建产物，检查生成结果。",
+      "alpha": "alpha:2",
+      "beta": "beta:1"
+    },
+    {
+      "id": "compound",
+      "kind": "mixed",
+      "task": "先重新构建 alpha 的产物一次并验证，再把产物的完整内容写入当前目录的 summary.txt。",
+      "alpha": "alpha:2",
+      "beta": "beta:1",
+      "output": [
+        "summary.txt",
+        "alpha:2"
+      ]
+    },
+    {
+      "id": "stale",
+      "kind": "fallback",
+      "task": "重新构建 alpha 的产物一次，并验证结果。",
+      "alpha": "alpha:2",
+      "beta": "beta:1"
+    },
+    {
+      "id": "novel",
+      "kind": "fallback",
+      "task": "在当前项目创建 note.txt，文件内容为 HELLO-JEV。不需要构建产物。",
+      "alpha": "alpha:1",
+      "beta": "beta:1",
+      "output": [
+        "note.txt",
+        "HELLO-JEV"
+      ]
+    },
+    {
+      "id": "unknown-project",
+      "kind": "fallback",
+      "task": "重新构建 gamma 项目的产物。找不到这个项目就告诉我，不要创建项目或改其他项目。",
+      "alpha": "alpha:1",
+      "beta": "beta:1"
+    },
+    {
+      "id": "permission-denied",
+      "kind": "fallback",
+      "task": "重新构建 alpha 的产物一次并验证；如果当前权限不允许，就停止并告诉我。不要尝试绕过限制。",
+      "alpha": "alpha:1",
+      "beta": "beta:1"
+    }
+  ],
+  "repeats": 1
+}

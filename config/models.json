@@ -1,0 +1,11 @@
+[
+  {
+    "id": "deepseek",
+    "model": "deepseek-chat",
+    "baseUrl": "https://api.deepseek.com",
+    "apiKeyEnv": "DEEPSEEK_API_KEY",
+    "description": "General coding and reasoning model configured by the user",
+    "capabilities": ["text", "tools"],
+    "contextWindow": 32768
+  }
+]

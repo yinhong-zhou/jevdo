@@ -1,0 +1,888 @@
+{
+  "rounds": [
+    {
+      "group": "official-clean",
+      "round": 1,
+      "n": 8,
+      "success": 8,
+      "zeroMainSuccess": 0,
+      "mainCalls": 62,
+      "jevCalls": 0,
+      "mainTokens": 229639,
+      "jevTokens": 0,
+      "seconds": 74.958,
+      "cost": 0.507182,
+      "learnedSelections": 0
+    },
+    {
+      "group": "required",
+      "round": 1,
+      "n": 8,
+      "success": 8,
+      "zeroMainSuccess": 1,
+      "mainCalls": 55,
+      "jevCalls": 109,
+      "mainTokens": 385100,
+      "jevTokens": 1173848,
+      "seconds": 111.675,
+      "cost": 1.3878785000000002,
+      "learnedSelections": 5
+    },
+    {
+      "group": "required",
+      "round": 2,
+      "n": 8,
+      "success": 8,
+      "zeroMainSuccess": 5,
+      "mainCalls": 12,
+      "jevCalls": 50,
+      "mainTokens": 65473,
+      "jevTokens": 425296,
+      "seconds": 37.949,
+      "cost": 0.34641550000000004,
+      "learnedSelections": 11
+    },
+    {
+      "group": "required",
+      "round": 3,
+      "n": 8,
+      "success": 8,
+      "zeroMainSuccess": 5,
+      "mainCalls": 15,
+      "jevCalls": 58,
+      "mainTokens": 103685,
+      "jevTokens": 576174,
+      "seconds": 47.446,
+      "cost": 0.5031629999999999,
+      "learnedSelections": 11
+    },
+    {
+      "group": "autonomous",
+      "round": 1,
+      "n": 8,
+      "success": 8,
+      "zeroMainSuccess": 0,
+      "mainCalls": 42,
+      "jevCalls": 110,
+      "mainTokens": 234800,
+      "jevTokens": 1065754,
+      "seconds": 90.351,
+      "cost": 1.021952,
+      "learnedSelections": 0
+    },
+    {
+      "group": "autonomous",
+      "round": 2,
+      "n": 8,
+      "success": 8,
+      "zeroMainSuccess": 0,
+      "mainCalls": 45,
+      "jevCalls": 135,
+      "mainTokens": 258166,
+      "jevTokens": 1364636,
+      "seconds": 101.322,
+      "cost": 1.219333,
+      "learnedSelections": 0
+    },
+    {
+      "group": "autonomous",
+      "round": 3,
+      "n": 8,
+      "success": 8,
+      "zeroMainSuccess": 0,
+      "mainCalls": 43,
+      "jevCalls": 122,
+      "mainTokens": 248280,
+      "jevTokens": 1247129,
+      "seconds": 95.707,
+      "cost": 1.1409030000000002,
+      "learnedSelections": 0
+    }
+  ],
+  "total": {
+    "n": 65,
+    "success": 65,
+    "zeroMainSuccess": 11,
+    "mainCalls": 332,
+    "jevCalls": 671,
+    "mainTokens": 1835389,
+    "jevTokens": 6763979,
+    "seconds": 665.838,
+    "cost": 7.2432384999999995,
+    "learnedSelections": 29
+  },
+  "failures": [],
+  "fallbackReasons": {
+    "LLM": 192,
+    "Project binding requires assistance.": 16,
+    "File binding requires assistance.": 4,
+    "Inconsistent Jev distribution": 1,
+    "Bounded action sequence reached its limit.": 10
+  },
+  "probes": [
+    {
+      "id": "official-clean-r1-start-and-edit",
+      "success": true,
+      "main": 10,
+      "jev": 0,
+      "selections": [],
+      "answer": "I'll start by exploring the project structure.\nNow let me start the backend and frontend.\nBoth services are up. Now I'll edit `src/math.mjs`, keeping `total` and adding `average`.\nNow run the existing unit tests and build.\nNow verify tests/build freshness, the new function's behavior, and that services are still reachable.\nLet me directly exercise the new `average` export (including the empty-array case) and confirm `dev.mjs` is untouched.\nDone. Everything requested is complete and verified.\n\n## What I did\n\n**1. Started services (backend first, then frontend)**\n- `node dev.mjs start-backend` → backend healthy at `http://127.0.0.1:7878` (pid 54572)\n- `node dev.mjs start-frontend` → frontend healthy at `http://127.0.0.1:7883` (pid 65704)\n\n**2. Edited `src/math.mjs`** — kept `total` unchanged, added `average`:\n\n```js\nexport const total = values => values.reduce((sum, value) => sum + value, 0);\n\nexport const average = values => values.length === 0 ? 0 : total(values) / values.length;\n```\n\n`average` reuses `total` for the sum and guards the empty array (returns `0` instead of `NaN` from division by zero). `dev.mjs` was **not** modified.\n\n**3. Ran existing tests and build**\n- `test` → `{\"tests\":2,\"passed\":true}`\n- `build` → `{\"version\":\"2.0.0\",\"sourceHash\":\"361e0747…3321f\"}`\n\n**4. Verification (all exit 0)**\n- `verify-tests` → passed, source hash matches current source\n- `verify-build` → build hash matches both `src/math.mjs` and `build/math.mjs` (not stale)\n- `verify-backend` / `verify-frontend` → both healthy, same instances as at startup (services survived the edit/build)\n- Direct import check: `total([2,3,7])=12`, `average([2,3,7])=4`, `average([])=0`, `average([5])=5`\n\n## Notes\n- The existing test suite only covers `total`; it does not assert on `average`, so I validated the new function separately via a direct module import. If you want `average` covered by the project's own tests, that would require editing `dev.mjs`'s `testProject`, which you asked me not to touch.\n- Both services are still running in the background and will auto-expire after 20 minutes. Let me know if you'd like me to stop them.",
+      "external": {
+        "success": true,
+        "error": null,
+        "events": [
+          {
+            "time": 1790933490071,
+            "event": "backend-started",
+            "instance": "50a5facb-6613-4e00-ac1f-fb582337c185",
+            "pid": 54572
+          },
+          {
+            "time": 1790933491424,
+            "event": "frontend-started",
+            "instance": "da6cb072-fc8a-4a58-a007-f16d76f8013c",
+            "pid": 65704
+          },
+          {
+            "time": 1790933493754,
+            "event": "tests-passed"
+          },
+          {
+            "time": 1790933494433,
+            "event": "build-complete"
+          }
+        ],
+        "backend": {
+          "role": "backend",
+          "instance": "50a5facb-6613-4e00-ac1f-fb582337c185",
+          "project": "developer-demo",
+          "pid": 54572,
+          "version": "2.0.0"
+        },
+        "frontend": {
+          "role": "frontend",
+          "instance": "da6cb072-fc8a-4a58-a007-f16d76f8013c",
+          "project": "developer-demo",
+          "pid": 65704,
+          "version": "2.0.0"
+        }
+      }
+    },
+    {
+      "id": "official-clean-r1-backend-failure",
+      "success": true,
+      "main": 6,
+      "jev": 0,
+      "selections": [],
+      "answer": "I'll start by exploring the project structure to understand what we're working with.\nLet me read the key project files to understand the setup.\nI can see `project.json` has `\"failBackend\": true`, which the code explicitly checks to refuse backend startup. Let me verify the current state and attempt the backend start as instructed.\nThe backend start failed as expected. Let me confirm the failure is genuine and not a transient issue, and verify no backend is running.\nThe backend is confirmed not running. Per the instructions, I will **not** start the frontend and will **not** modify any configuration. Let me check the event log to confirm the recorded failure reason.\n## Report: Backend startup failed — frontend NOT started\n\n### What I did\n1. Inspected the project (`README.md`, `project.json`, `dev.mjs`, `deployment.json`).\n2. Checked initial state: `node dev.mjs status` → `{\"backend\":null,\"frontend\":null}` (nothing running).\n3. Attempted `node dev.mjs start-backend` → **failed** (exit code 1).\n4. Verified the failure: `verify-backend` → `ERROR Service is not healthy`; `status` → backend still `null`.\n\n### Failure reason\n```\nERROR Backend configuration refuses startup\n```\n\n**Root cause:** `project.json` contains the flag `\"failBackend\": true`. The project's own `dev.mjs` explicitly honors this flag in both the `start()` and `serve()` paths:\n\n```js\nif (role === 'backend' && config.failBackend) {\n  await log('backend-failed');\n  throw new Error('Backend configuration refuses startup');\n}\n```\n\nThis is a deliberate, deterministic configuration refusal — not a transient/port/timing issue. The event log confirms it was recorded: `.dev/events.jsonl` → `{\"event\":\"backend-failed\"}`.\n\n### Actions taken per your constraints\n- ❌ **Frontend NOT started.** The backend never became healthy, and `dev.mjs` itself also guards this (`Backend must be ready before frontend starts`). Starting it would fail anyway.\n- ❌ **No configuration modified.** I did not touch `project.json`, `schema.json`, or `dev.mjs`. The `failBackend` flag is a project input, and the README states `dev.mjs` should be kept unchanged unless explicitly asked.\n- ✅ **Failure reported clearly** with the exact error and its source.\n\n### Current state\n| Service | Status |\n|---|---|\n| Backend | Not running (startup refused by config) |\n| Frontend | Not running (intentionally not started) |\n\n### To proceed\nThe backend cannot start while `project.json` has `\"failBackend\": true`. If you want the backend to run, you'll need to explicitly authorize changing that flag to `false` (or otherwise fix the configuration) — I did not do so on my own, as instructed.",
+      "external": {
+        "success": true,
+        "error": null,
+        "events": [
+          {
+            "time": 1790933504181,
+            "event": "backend-failed"
+          }
+        ],
+        "backend": null,
+        "frontend": null
+      }
+    },
+    {
+      "id": "official-clean-r1-changed-script",
+      "success": true,
+      "main": 6,
+      "jev": 0,
+      "selections": [],
+      "answer": "I'll start by exploring the project structure to understand what we're working with.\nLet me examine the project configuration and related files.\nThe README documents a `generate-client` operation that regenerates `generated/client.ts` from `schema.json`, with `verify-client` to check it. Let me check the current state of the generated client before regenerating.\nThe client doesn't exist yet, so it's stale. Let me regenerate it using the documented operation.\nGeneration succeeded. Now let me verify the result with the documented verification command and inspect the actual file contents.\nDone. The API client has been regenerated and verified.\n\n## What I did\n\n1. **Inspected the project** — `README.md` documents a `generate-client` operation (\"Regenerate generated/client.ts from current schema.json\") with `verify-client` as its check. I used these existing scripts rather than writing anything new.\n\n2. **Checked the prior state** — `verify-client` failed with `ENOENT`: `generated/client.ts` did not exist, confirming the client was stale/missing.\n\n3. **Regenerated** — ran `node dev.mjs generate-client`, which reported `{\"file\":\"generated/client.ts\",\"endpoints\":2}`.\n\n4. **Verified** — ran `node dev.mjs verify-client`, which exited 0 with `OK {\"client\":\"current\"}`. This check independently recomputes the expected output from `schema.json` and compares it byte-for-byte against the file on disk.\n\n## Result\n\n`generated/client.ts` now matches the current `schema.json`:\n\n```ts\nexport const getUsers = \"/users\";\nexport const getHealth = \"/health\";\n```\n\nBoth endpoints from the schema are present, and the verification command confirms the file is current. No other files were modified, and `dev.mjs` was left unchanged as the README requires.",
+      "external": {
+        "success": true,
+        "error": null,
+        "events": [
+          {
+            "time": 1790933514145,
+            "event": "client-generated"
+          }
+        ],
+        "backend": null,
+        "frontend": null
+      }
+    },
+    {
+      "id": "required-r4-start-and-edit",
+      "success": true,
+      "main": 6,
+      "jev": 18,
+      "selections": [
+        "start-backend",
+        "start-frontend"
+      ],
+      "answer": "I'll start by inspecting the project structure and existing actions.\nBackend and frontend are already started and verified. Now let me look at the source and dev.mjs to understand the test/build flow.\nNow I'll add `average` while keeping `total` unchanged.\nNow run the existing unit tests and the build via the registered actions.\nThe recipe is stale because `src/math.mjs` (a watched file) changed. I'll revalidate it, which re-runs the tests against the new source.\nTests pass. Now the build.\nlist_files (demo)\n{\"files\":[\".dev/backend.json\",\".dev/backend.log\",\".dev/events.jsonl\",\".dev/frontend.json\",\".dev/frontend.log\",\"deployment.json\",\"dev.mjs\",\"project.json\",\"README.md\",\"releases/release-1790933502424/manifest.json\",\"releases/release-1790933502424/math.mjs\",\"releases/release-1790933510709/manifest.json\",\"releases/release-1790933510709/math.mjs\",\"releases/release-1790933558535/manifest.json\",\"releases/release-1790933558535/math.mjs\",\"releases/release-1790933613599/manifest.json\",\"releases/release-1790933613599/math.mjs\",\"releases/release-current/manifest.json\",\"releases/release-old/manifest.json\",\"schema.json\",\"src/math.mjs\"],\"truncated\":false}\n\nread_file (demo)\n{\"file\":\"src/math.mjs\",\"content\":\"export const total = values => values.reduce((sum, value) => sum + value, 0);\\n\",\"truncated\":false}\n\nstart-backend (demo)\nOK {\"status\":\"started\",\"role\":\"backend\",\"instance\":\"335c8582-7b89-411d-a028-ba46c3913957\",\"url\":\"http://127.0.0.1:8633\",\"pid\":35616,\"project\":\"developer-demo\",\"version\":\"2.0.0\"}\n\nOK {\"role\":\"backend\",\"instance\":\"335c8582-7b89-411d-a028-ba46c3913957\",\"url\":\"http://127.0.0.1:8633\",\"pid\":35616,\"project\":\"developer-demo\",\"version\":\"2.0.0\"}\n\n\nstart-frontend (demo)\nOK {\"status\":\"started\",\"role\":\"frontend\",\"instance\":\"c8458b1d-bf0b-41b0-8e3c-a107613c269a\",\"url\":\"http://127.0.0.1:8642\",\"pid\":48012,\"project\":\"developer-demo\",\"version\":\"2.0.0\"}\n\nOK {\"role\":\"frontend\",\"instance\":\"c8458b1d-bf0b-41b0-8e3c-a107613c269a\",\"url\":\"http://127.0.0.1:8642\",\"pid\":48012,\"project\":\"developer-demo\",\"version\":\"2.0.0\"}\n\n\nrun-tests (demo)\nOK {\"tests\":2,\"passed\":true}\n\nOK {\"sourceHash\":\"361e07471ae417687357758b2d9ad3236bb838fe2502498443d71be1b1c3321f\",\"passed\":true}\n\n\nbuild-project (demo)\nOK {\"version\":\"2.0.0\",\"sourceHash\":\"361e07471ae417687357758b2d9ad3236bb838fe2502498443d71be1b1c3321f\"}\n\nOK {\"version\":\"2.0.0\",\"sourceHash\":\"361e07471ae417687357758b2d9ad3236bb838fe2502498443d71be1b1c3321f\"}\n",
+      "external": {
+        "success": true,
+        "error": null,
+        "events": [
+          {
+            "time": 1790933634166,
+            "event": "backend-started",
+            "instance": "335c8582-7b89-411d-a028-ba46c3913957",
+            "pid": 35616
+          },
+          {
+            "time": 1790933635662,
+            "event": "frontend-started",
+            "instance": "c8458b1d-bf0b-41b0-8e3c-a107613c269a",
+            "pid": 48012
+          },
+          {
+            "time": 1790933643984,
+            "event": "tests-passed"
+          },
+          {
+            "time": 1790933646185,
+            "event": "build-complete"
+          }
+        ],
+        "backend": {
+          "role": "backend",
+          "instance": "335c8582-7b89-411d-a028-ba46c3913957",
+          "project": "developer-demo",
+          "pid": 35616,
+          "version": "2.0.0"
+        },
+        "frontend": {
+          "role": "frontend",
+          "instance": "c8458b1d-bf0b-41b0-8e3c-a107613c269a",
+          "project": "developer-demo",
+          "pid": 48012,
+          "version": "2.0.0"
+        }
+      }
+    },
+    {
+      "id": "required-r4-backend-failure",
+      "success": true,
+      "main": 7,
+      "jev": 11,
+      "selections": [],
+      "answer": "I'll start by inspecting the project structure and any registered actions.\nI see registered actions. Let me check the project config and README to understand the setup.\n`project.json` has `failBackend: true`, so the backend start is expected to fail. Let me check the current status first, then attempt the backend start.\nNeither service is running. Now I'll attempt to start the backend.\nThe registered recipe is stale. Let me inspect the actual start-backend implementation to understand what it does and why it's stale.\nThe backend start failed as expected. Let me confirm the failure reason and verify the frontend was not started.\nBackend start failed, so per your instruction I did **not** start the frontend and did **not** modify any configuration.\n\n## Result\n\n**Backend: FAILED to start**\n- Command: `node dev.mjs start-backend`\n- Output: `ERROR Backend configuration refuses startup` (exit code 1)\n- Verification: `node dev.mjs verify-backend` → `ERROR Service is not healthy` (exit code 1)\n\n**Frontend: NOT started** (correctly skipped, since the backend never became healthy)\n\n**Current status:** `{\"backend\":null,\"frontend\":null}` — neither service is running.\n\n## Failure reason\n\nThe failure is a deliberate configuration refusal, not a crash or port conflict. `project.json` contains:\n\n```json\n{\n  \"name\": \"developer-demo\",\n  \"version\": \"2.0.0\",\n  \"failBackend\": true\n}\n```\n\nThe `failBackend: true` flag makes the backend startup routine refuse to launch and exit with `ERROR Backend configuration refuses startup`. The README documents this same behavior: the `start-backend` operation \"Fails if project.json sets failBackend=true.\"\n\n## What I did not do\n\n- Did not start the frontend (it requires a healthy backend and would refuse anyway).\n- Did not edit `project.json`, `schema.json`, or `dev.mjs` to work around the refusal.\n- Did not retry with altered flags or bypass the check.\n\n## Note on the registered action\n\nThe saved `start-backend` action could not be used directly — it returned `Recipe is stale; inspect and revalidate it in its project`. I therefore ran the documented command directly. The stale binding is a separate issue from the startup failure; the underlying command itself ran and failed for the configuration reason above. If you want the action usable again, it would need revalidation, but I did not do that since revalidating would execute the same failing start and is not part of your request.\n\nTo make the backend startable, `failBackend` in `project.json` would need to be set to `false` — but that is a configuration change, which you explicitly asked me not to make. Let me know if you'd like me to proceed with it.",
+      "external": {
+        "success": true,
+        "error": null,
+        "events": [
+          {
+            "time": 1790933656720,
+            "event": "backend-failed"
+          }
+        ],
+        "backend": null,
+        "frontend": null
+      }
+    },
+    {
+      "id": "required-r4-changed-script",
+      "success": true,
+      "main": 7,
+      "jev": 15,
+      "selections": [],
+      "answer": "I'll start by exploring the project to understand the structure and find the schema and generation setup.\nThere's a `generate-client` action registered for this project. Let me inspect the project files to understand the current state before running it.\nThe README documents `generate-client` / `verify-client`. Let me check the current state of the generated client and the dev.mjs implementation to understand what's expected.\nThe generated client is missing. Let me look at the `dev.mjs` implementation of `generate-client` and `verify-client` to understand exactly what they do.\nLet me see the actual `generateClient` and `verifyClient` function bodies.\nThe implementation is clear: `generate-client` writes `generated/client.ts` from `schema.json`, and `verify-client` independently recomputes the expected content and compares. The registered `generate-client` action matches this exactly.\n\nThe catalog shows the binding is `ready: false` — meaning the recipe's watched files changed since it was validated, so direct reuse is blocked. Let me confirm the current fingerprints of the watched files.\nThe watched files (`dev.mjs`, `schema.json`) have changed since the recipe was validated, so the binding is not ready. I'll re-validate the recipe against the current files, which executes the generation and its verifier as part of this request.\ngenerate-client (demo)\nOK {\"file\":\"generated/client.ts\",\"endpoints\":2}\n\nOK {\"client\":\"current\"}\n",
+      "external": {
+        "success": true,
+        "error": null,
+        "events": [
+          {
+            "time": 1790933677475,
+            "event": "client-generated"
+          }
+        ],
+        "backend": null,
+        "frontend": null
+      }
+    },
+    {
+      "id": "autonomous-r4-start-and-edit",
+      "success": true,
+      "main": 7,
+      "jev": 13,
+      "selections": [],
+      "answer": "I'll start by inspecting the project structure and existing actions.\nI have the full picture. Let me start the backend and frontend services.\nBackend is up. Now the frontend (which requires a healthy backend).\nBoth services are running. Now I'll add `average` to `src/math.mjs`, keeping `total` intact.\nNow run the existing unit tests and the build.\nNow let me verify the tests/build are current, the new function behaves correctly, and both services are still reachable.\nlist_files (demo)\n{\"files\":[\".dev/backend.json\",\".dev/backend.log\",\".dev/events.jsonl\",\".dev/frontend.json\",\".dev/frontend.log\",\"deployment.json\",\"dev.mjs\",\"project.json\",\"README.md\",\"releases/release-1790933471522/manifest.json\",\"releases/release-1790933471522/math.mjs\",\"releases/release-1790933573704/manifest.json\",\"releases/release-1790933573704/math.mjs\",\"releases/release-1790933677794/manifest.json\",\"releases/release-1790933677794/math.mjs\",\"releases/release-current/manifest.json\",\"releases/release-old/manifest.json\",\"schema.json\",\"src/math.mjs\"],\"truncated\":false}\n\nread_file (demo)\n{\"file\":\"src/math.mjs\",\"content\":\"export const total = values => values.reduce((sum, value) => sum + value, 0);\\n\",\"truncated\":false}",
+      "external": {
+        "success": true,
+        "error": null,
+        "events": [
+          {
+            "time": 1790933722490,
+            "event": "backend-started",
+            "instance": "323c54b3-1564-44ab-b43f-4eb64bc9371f",
+            "pid": 41972
+          },
+          {
+            "time": 1790933724109,
+            "event": "frontend-started",
+            "instance": "cbffe1fa-0d05-4837-ad09-f1eb2489bf41",
+            "pid": 62420
+          },
+          {
+            "time": 1790933726941,
+            "event": "tests-passed"
+          },
+          {
+            "time": 1790933728184,
+            "event": "build-complete"
+          }
+        ],
+        "backend": {
+          "role": "backend",
+          "instance": "323c54b3-1564-44ab-b43f-4eb64bc9371f",
+          "project": "developer-demo",
+          "pid": 41972,
+          "version": "2.0.0"
+        },
+        "frontend": {
+          "role": "frontend",
+          "instance": "cbffe1fa-0d05-4837-ad09-f1eb2489bf41",
+          "project": "developer-demo",
+          "pid": 62420,
+          "version": "2.0.0"
+        }
+      }
+    },
+    {
+      "id": "autonomous-r4-backend-failure",
+      "success": true,
+      "main": 5,
+      "jev": 17,
+      "selections": [],
+      "answer": "I'll start by inspecting the project and its registered actions.\nI'll check the current status first, then start the backend.\nNeither service is running. Starting the backend now.\nThe backend start failed. Let me confirm the failure and gather the reason before deciding anything about the frontend.\nlist_files (demo)\n{\"files\":[\".dev/backend.json\",\".dev/backend.log\",\".dev/events.jsonl\",\".dev/frontend.json\",\".dev/frontend.log\",\"deployment.json\",\"dev.mjs\",\"project.json\",\"README.md\",\"releases/release-1790933471522/manifest.json\",\"releases/release-1790933471522/math.mjs\",\"releases/release-1790933573704/manifest.json\",\"releases/release-1790933573704/math.mjs\",\"releases/release-1790933677794/manifest.json\",\"releases/release-1790933677794/math.mjs\",\"releases/release-current/manifest.json\",\"releases/release-old/manifest.json\",\"schema.json\",\"src/math.mjs\"],\"truncated\":false}\n\nread_file (demo)\n{\"file\":\"README.md\",\"content\":\"# Developer demo\\n\\nUse the existing scripts. No network package install is needed. Run commands as node dev.mjs <operation> in this directory. Node is available.\\n\\n| Operation | Effect | Verify |\\n|---|---|---|\\n| start-backend | Start backend in background, await health, return | verify-backend |\\n| start-frontend | Start frontend in background after backend is healthy | verify-frontend |\\n| stop-frontend | Stop only this project's frontend | verify-frontend-stopped |\\n| stop-backend | Stop only this project's backend | verify-backend-stopped |\\n| restart-backend | Restart backend, preserving frontend | verify-backend |\\n| test | Run unit tests | verify-tests |\\n| build | Rebuild current source | verify-build |\\n| generate-client | Regenerate generated/client.ts from current schema.json | verify-client |\\n| publish | Require current tests/build, copy to local releases, update deployment.json | verify-release |\\n| rollback | Switch deployment.json to its previous release | verify-release |\\n| status | Inspect live backend/frontend | read only |\\n\\nAll verification commands exit nonzero on failure and print OK on success. Service start commands return after readiness; existing healthy services are kept. Stop uses a project-instance HTTP shutdown endpoint, not arbitrary PID killing. Servers auto-expire after 20 minutes. No real external deployment exists. Keep the version-control script dev.mjs unchanged unless explicitly asked; project.json and schema.json are variable inputs. Only independently useful operations need separate reuse; do not combine frontend/backend startup into one new script here because either can be requested individually.\\n\",\"truncated\":false}",
+      "external": {
+        "success": true,
+        "error": null,
+        "events": [
+          {
+            "time": 1790933738955,
+            "event": "backend-failed"
+          }
+        ],
+        "backend": null,
+        "frontend": null
+      }
+    },
+    {
+      "id": "autonomous-r4-changed-script",
+      "success": true,
+      "main": 4,
+      "jev": 13,
+      "selections": [],
+      "answer": "I'll start by inspecting the project and its current state.\nNow I'll run the documented `generate-client` operation and then verify the result.\nlist_files (demo)\n{\"files\":[\".dev/backend.json\",\".dev/backend.log\",\".dev/events.jsonl\",\".dev/frontend.json\",\".dev/frontend.log\",\"deployment.json\",\"dev.mjs\",\"project.json\",\"README.md\",\"releases/release-1790933471522/manifest.json\",\"releases/release-1790933471522/math.mjs\",\"releases/release-1790933573704/manifest.json\",\"releases/release-1790933573704/math.mjs\",\"releases/release-1790933677794/manifest.json\",\"releases/release-1790933677794/math.mjs\",\"releases/release-current/manifest.json\",\"releases/release-old/manifest.json\",\"schema.json\",\"src/math.mjs\"],\"truncated\":false}\n\nread_file (demo)\n{\"file\":\"schema.json\",\"content\":\"{\\n  \\\"endpoints\\\": [\\n    {\\n      \\\"name\\\": \\\"getUsers\\\",\\n      \\\"path\\\": \\\"/users\\\"\\n    },\\n    {\\n      \\\"name\\\": \\\"getHealth\\\",\\n      \\\"path\\\": \\\"/health\\\"\\n    }\\n  ]\\n}\",\"truncated\":false}\n\nread_file (demo)\n{\"file\":\"generated/client.ts\",\"content\":\"export const getUsers = \\\"/users\\\";\\nexport const getHealth = \\\"/health\\\";\\n\",\"truncated\":false}",
+      "external": {
+        "success": true,
+        "error": null,
+        "events": [
+          {
+            "time": 1790933751388,
+            "event": "client-generated"
+          }
+        ],
+        "backend": null,
+        "frontend": null
+      }
+    }
+  ],
+  "finalLibraries": {
+    "required": {
+      "saved": 9,
+      "active": 1,
+      "actions": [
+        {
+          "id": "build-project",
+          "description": "Rebuild this project from the current source and confirm the build artifact matches the current source. Applicable when build output must be regenerated or proven up to date (e.g. before publishing a release). Side effect: rewrites build/math.mjs and build/manifest.json and appends to .dev/events.jsonl. Does not run tests, publish or touch running services. Fails if the build is missing or stale.",
+          "slots": [
+            {
+              "name": "project",
+              "source": "projects",
+              "dependsOn": []
+            }
+          ],
+          "executor": "recipe"
+        },
+        {
+          "id": "generate-client",
+          "description": "Regenerate this project's API client (generated/client.ts) from the current schema.json and confirm the generated file matches the current schema. Applicable when schema.json changed or the generated client is missing/stale. Side effect: rewrites generated/client.ts and appends to .dev/events.jsonl. Does not build, test, publish or touch running services. Fails if the generated client does not match schema.json.",
+          "slots": [
+            {
+              "name": "project",
+              "source": "projects",
+              "dependsOn": []
+            }
+          ],
+          "executor": "recipe"
+        },
+        {
+          "id": "publish-release",
+          "description": "Test, build and publish this project to its local releases directory, then confirm the current release. Applicable when the current source must be released locally (README \"publish\" operation): runs the unit tests, rebuilds from current source, copies the build into releases/<release-id> and updates deployment.json (current/previous). Side effect: writes .dev/test.json, build/, a new releases/ directory and deployment.json, and appends to .dev/events.jsonl. Not idempotent: each run creates a new release id and moves the previous current release to previous. Does not start/stop services, does not generate the API client, and does not perform any external deployment. Fails if tests fail or the build is stale relative to the tested source. Use rollback to return to the previous release.",
+          "slots": [
+            {
+              "name": "project",
+              "source": "projects",
+              "dependsOn": []
+            }
+          ],
+          "executor": "recipe"
+        },
+        {
+          "id": "restart-backend",
+          "description": "Restart this project's backend HTTP service (stop then start) and wait until it is healthy again, while leaving the frontend process untouched. Applicable when the backend must be recycled but the frontend must keep running (e.g. after backend code/config changes). Side effect: stops this project's own backend via its instance shutdown endpoint and launches a new detached backend node process that auto-expires after 20 minutes; appends to .dev/events.jsonl. Does not start, stop or restart the frontend. Fails if project.json sets failBackend=true or the backend does not become healthy. Use stop-backend/start-backend when only one half is wanted.",
+          "slots": [
+            {
+              "name": "project",
+              "source": "projects",
+              "dependsOn": []
+            }
+          ],
+          "executor": "recipe"
+        },
+        {
+          "id": "run-tests",
+          "description": "Run this project's unit tests and confirm the recorded test result matches the current source. Applicable when the unit test suite must be executed (e.g. before publishing a release). Side effect: writes .dev/test.json with the source hash and appends to .dev/events.jsonl. Does not build, publish or touch running services. Fails if the tests fail.",
+          "slots": [
+            {
+              "name": "project",
+              "source": "projects",
+              "dependsOn": []
+            }
+          ],
+          "executor": "recipe"
+        },
+        {
+          "id": "start-backend",
+          "description": "Start this project's backend HTTP service in the background and wait until it is healthy. Applicable when the backend must be running (e.g. before starting the frontend, which requires a healthy backend). Idempotent: an already-healthy backend is kept as-is rather than restarted. Side effect: launches a detached node process that auto-expires after 20 minutes. Does not start the frontend; use start-frontend for that. Fails if project.json sets failBackend=true.",
+          "slots": [
+            {
+              "name": "project",
+              "source": "projects",
+              "dependsOn": []
+            }
+          ],
+          "executor": "recipe"
+        },
+        {
+          "id": "start-frontend",
+          "description": "Start this project's frontend HTTP service in the background and wait until it is healthy. Applicable only after the backend is healthy: the frontend refuses to start otherwise, so run start-backend first. Idempotent: an already-healthy frontend is kept as-is rather than restarted. Side effect: launches a detached node process that auto-expires after 20 minutes. Does not start the backend.",
+          "slots": [
+            {
+              "name": "project",
+              "source": "projects",
+              "dependsOn": []
+            }
+          ],
+          "executor": "recipe"
+        },
+        {
+          "id": "stop-backend",
+          "description": "Stop this project's backend HTTP service and wait until it is confirmed down. Applicable when the backend must no longer be running; when pausing the whole dev stack, stop the frontend first (stop-frontend) because the frontend depends on a healthy backend. Idempotent: an already-stopped backend is reported as already-stopped. Uses the project-instance HTTP shutdown endpoint, so it only affects this project's own backend process, never arbitrary PIDs. Does not stop the frontend.",
+          "slots": [
+            {
+              "name": "project",
+              "source": "projects",
+              "dependsOn": []
+            }
+          ],
+          "executor": "recipe"
+        },
+        {
+          "id": "stop-frontend",
+          "description": "Stop this project's frontend HTTP service and wait until it is confirmed down. Applicable when the frontend must no longer be running; run this before stop-backend when pausing the whole dev stack. Idempotent: an already-stopped frontend is reported as already-stopped. Uses the project-instance HTTP shutdown endpoint, so it only affects this project's own frontend process, never arbitrary PIDs. Does not stop the backend; use stop-backend for that.",
+          "slots": [
+            {
+              "name": "project",
+              "source": "projects",
+              "dependsOn": []
+            }
+          ],
+          "executor": "recipe"
+        }
+      ],
+      "recipes": [
+        {
+          "id": "build-project",
+          "actionId": "build-project",
+          "projectId": "demo",
+          "steps": [
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "build"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            }
+          ],
+          "verify": {
+            "command": {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "verify-build"
+              ],
+              "cwd": ".",
+              "timeoutMs": 30000
+            },
+            "contains": "OK"
+          },
+          "watchedFiles": [
+            "dev.mjs",
+            "src/math.mjs"
+          ]
+        },
+        {
+          "id": "generate-client",
+          "actionId": "generate-client",
+          "projectId": "demo",
+          "steps": [
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "generate-client"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            }
+          ],
+          "verify": {
+            "command": {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "verify-client"
+              ],
+              "cwd": ".",
+              "timeoutMs": 30000
+            },
+            "contains": "OK"
+          },
+          "watchedFiles": [
+            "dev.mjs",
+            "schema.json"
+          ]
+        },
+        {
+          "id": "publish-release",
+          "actionId": "publish-release",
+          "projectId": "demo",
+          "steps": [
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "test"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            },
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "build"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            },
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "publish"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            }
+          ],
+          "verify": {
+            "command": {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "verify-release"
+              ],
+              "cwd": ".",
+              "timeoutMs": 30000
+            },
+            "contains": "OK"
+          },
+          "watchedFiles": [
+            "dev.mjs",
+            "src/math.mjs",
+            "project.json"
+          ]
+        },
+        {
+          "id": "restart-backend",
+          "actionId": "restart-backend",
+          "projectId": "demo",
+          "steps": [
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "restart-backend"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            }
+          ],
+          "verify": {
+            "command": {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "verify-backend"
+              ],
+              "cwd": ".",
+              "timeoutMs": 30000
+            },
+            "contains": "OK"
+          },
+          "watchedFiles": [
+            "dev.mjs",
+            "project.json"
+          ]
+        },
+        {
+          "id": "run-tests",
+          "actionId": "run-tests",
+          "projectId": "demo",
+          "steps": [
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "test"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            }
+          ],
+          "verify": {
+            "command": {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "verify-tests"
+              ],
+              "cwd": ".",
+              "timeoutMs": 30000
+            },
+            "contains": "OK"
+          },
+          "watchedFiles": [
+            "dev.mjs",
+            "src/math.mjs"
+          ]
+        },
+        {
+          "id": "start-backend",
+          "actionId": "start-backend",
+          "projectId": "demo",
+          "steps": [
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "start-backend"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            }
+          ],
+          "verify": {
+            "command": {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "verify-backend"
+              ],
+              "cwd": ".",
+              "timeoutMs": 30000
+            },
+            "contains": "OK"
+          },
+          "watchedFiles": [
+            "dev.mjs",
+            "project.json"
+          ]
+        },
+        {
+          "id": "start-frontend",
+          "actionId": "start-frontend",
+          "projectId": "demo",
+          "steps": [
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "start-frontend"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            }
+          ],
+          "verify": {
+            "command": {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "verify-frontend"
+              ],
+              "cwd": ".",
+              "timeoutMs": 30000
+            },
+            "contains": "OK"
+          },
+          "watchedFiles": [
+            "dev.mjs",
+            "project.json"
+          ]
+        },
+        {
+          "id": "stop-backend",
+          "actionId": "stop-backend",
+          "projectId": "demo",
+          "steps": [
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "stop-backend"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            }
+          ],
+          "verify": {
+            "command": {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "verify-backend-stopped"
+              ],
+              "cwd": ".",
+              "timeoutMs": 30000
+            },
+            "contains": "OK"
+          },
+          "watchedFiles": [
+            "dev.mjs",
+            "project.json"
+          ]
+        },
+        {
+          "id": "stop-frontend",
+          "actionId": "stop-frontend",
+          "projectId": "demo",
+          "steps": [
+            {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "stop-frontend"
+              ],
+              "cwd": ".",
+              "timeoutMs": 60000
+            }
+          ],
+          "verify": {
+            "command": {
+              "command": "node",
+              "args": [
+                "dev.mjs",
+                "verify-frontend-stopped"
+              ],
+              "cwd": ".",
+              "timeoutMs": 30000
+            },
+            "contains": "OK"
+          },
+          "watchedFiles": [
+            "dev.mjs",
+            "project.json"
+          ]
+        }
+      ],
+      "bindings": [
+        {
+          "recipeId": "build-project",
+          "actionId": "build-project",
+          "active": true,
+          "fingerprint": "eb454ff4153472a42fb3ecdb4275bac5b9ed178b432d04d42902d78ab13dc2f9",
+          "ready": false
+        },
+        {
+          "recipeId": "generate-client",
+          "actionId": "generate-client",
+          "active": true,
+          "fingerprint": "c09777f3a3eacca93792f23a5a212e5734a78ba64f15250f9e89d9409abc5faf",
+          "ready": true
+        },
+        {
+          "recipeId": "publish-release",
+          "actionId": "publish-release",
+          "active": true,
+          "fingerprint": "12c17682c22ea607588ff9e8b57975bc9192591e69d72ad75ed923009fc3eb43",
+          "ready": false
+        },
+        {
+          "recipeId": "restart-backend",
+          "actionId": "restart-backend",
+          "active": true,
+          "fingerprint": "8248dee32f612b9b43919412dc558d5319eb46d4711b0afe457d905e6d4f663a",
+          "ready": false
+        },
+        {
+          "recipeId": "run-tests",
+          "actionId": "run-tests",
+          "active": true,
+          "fingerprint": "b6170174716556bb9774845c7c65f31620e3ef53b708c878c2ec2467ef97d878",
+          "ready": false
+        },
+        {
+          "recipeId": "start-backend",
+          "actionId": "start-backend",
+          "active": true,
+          "fingerprint": "6393780a180a411ccff6e6c0d1034378bf9b3ccb2d1164480df81802428e9977",
+          "ready": false
+        },
+        {
+          "recipeId": "start-frontend",
+          "actionId": "start-frontend",
+          "active": true,
+          "fingerprint": "64abfd9dc8fdd6a70b3d0faff59cfc94ff6b2ff4ae25cddcce4a402c612a1a4e",
+          "ready": false
+        },
+        {
+          "recipeId": "stop-backend",
+          "actionId": "stop-backend",
+          "active": true,
+          "fingerprint": "ad38234ffb75f6c2e816c40e4019de206a63ca95478bdfad8990543cc9a2f071",
+          "ready": false
+        },
+        {
+          "recipeId": "stop-frontend",
+          "actionId": "stop-frontend",
+          "active": true,
+          "fingerprint": "471a728f2d6e9e670df0d478aacbbd335e7fb8889c1188a595db0621f48b4457",
+          "ready": false
+        }
+      ]
+    },
+    "autonomous": {
+      "saved": 0,
+      "active": 0,
+      "actions": [],
+      "recipes": [],
+      "bindings": []
+    }
+  }
+}

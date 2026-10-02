@@ -1,0 +1,76 @@
+{
+  "version": 3,
+  "title": "Fixed-input repeated Action reuse versus a once-measured no-plugin official DSH loop baseline",
+  "createdAt": "2026-10-02T08:34:44.258Z",
+  "officialBenchmarkScore": false,
+  "source": "../reuse-subset/protocol.json",
+  "sourceTasks": [
+    {
+      "task": "log-summary-date-ranges",
+      "url": "https://github.com/harbor-framework/terminal-bench-2-1/blob/7131e4375048a0e408a8fb404b5f499d726b695b/tasks/log-summary-date-ranges/instruction.md",
+      "sha256": "c1d4516ad4ec2238209740eaf01291df9ab48b0028a3fc5df383c6f831453484"
+    },
+    {
+      "task": "multi-source-data-merger",
+      "url": "https://github.com/harbor-framework/terminal-bench-2-1/blob/7131e4375048a0e408a8fb404b5f499d726b695b/tasks/multi-source-data-merger/instruction.md",
+      "sha256": "d1d28bb6e37f7a255a1b7f78aae8591f35c0494f33e4913392424ad954aab944"
+    },
+    {
+      "task": "regex-log",
+      "url": "https://github.com/harbor-framework/terminal-bench-2-1/blob/7131e4375048a0e408a8fb404b5f499d726b695b/tasks/regex-log/instruction.md",
+      "sha256": "4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c"
+    }
+  ],
+  "groups": {
+    "official-clean": "Official DSH loop; no JevAction runtime, Action tools, authoring prompt or Jev. Runs each fixed-input task ONCE from a clean workspace. This single observed reference is compared with all plugin rounds; it is not three independent measurements. Same minimal headless host, adapter and ordinary tools, not the full DSH CLI product.",
+    "required": "Jev loop and Action support; the same user prompt explicitly requires saving and validating an Action in every round.",
+    "autonomous": "Same Jev loop and Action support; no explicit user save requirement. The plugin authoring prompt is still present."
+  },
+  "design": {
+    "workflows": 3,
+    "pluginRounds": 3,
+    "baselineRunsPerTask": 1,
+    "totalRows": 21,
+    "reusedColdRows": 6,
+    "newPaidRuns": 15,
+    "persistence": "Only plugin groups retain their own scripts and Action store across rounds. No cross-group artifact sharing. Plugin groups do not restore between rounds 2 and 3. The official-clean baseline is measured once per task from scratch.",
+    "freshSessions": "Each plugin round creates a new host and empty session. No chat history transfer. Restore identical variant-0 input bytes and delete designated output artifacts only; preserve executable scripts and Action records.",
+    "initialization": "Plugin groups restore their original cold snapshots ONCE, at the original paths to preserve fingerprints. The official-clean run begins from README and inputs only, and may create scripts within its one run.",
+    "inputs": "Fixed variant 0 in every run. Each group repeats exactly its original cold user prompt. The required-save instruction is the only user-prompt difference between groups. Assert input hashes and verifier targets against the recorded cold trace. No hidden external checker feedback enters model input.",
+    "order": "Up to three workflows run concurrently, with isolated workspaces and one shared pre-reservation budget. Within each workflow: one clean baseline, then plugin rounds in order; group order alternates. Reused cold plugin rollouts were recorded earlier, so this is a supplemental pilot, not a simultaneous randomized study.",
+    "noManualRepairs": true,
+    "repeatedSeeds": 1,
+    "mainModel": "deepseek-flash",
+    "thinking": "disabled",
+    "temperature": 0,
+    "maxOutputTokens": 3000,
+    "maxSteps": 20,
+    "timeoutMs": 240000,
+    "expectedImprovement": "Hypothesis to test, never an enforced or guaranteed outcome."
+  },
+  "success": "Independent artifact verification AND unmodified inputs AND a completed turn. Correct artifacts at step exhaustion are reported separately.",
+  "measures": [
+    "Per-round success, latency, main/Jev calls, input/output tokens and conservative cost",
+    "Cumulative plugin cost and successes INCLUDING round 1",
+    "Successful zero-main-model runs",
+    "Saved and active Actions",
+    "A baseline cost multiplied by three, if shown, is an extrapolated reference, not three actual observations or an extra sample count."
+  ],
+  "cost": {
+    "sharedLedger": "../reuse-subset/budget.json",
+    "previousUpperCny": 4.141991000000003,
+    "userLimitCny": 10,
+    "stopLimitCny": 9,
+    "reusedColdCosts": "Included once in each cumulative curve, not charged a second time to the global ledger."
+  },
+  "limitations": [
+    "Three public-spec-derived workflows, small generated inputs; not an official benchmark score.",
+    "One rollout per workflow and group; no significance claim.",
+    "Exact-repeat reuse only: improvement does not establish robustness to changed inputs or generalization to unseen tasks.",
+    "The baseline is sampled once per task to save budget; it does not estimate run-to-run model or timing variance.",
+    "Cold plugin rollouts are reused without changing their prompts, recipes or outcomes.",
+    "New rollouts run with up to three concurrent workflows; latency includes possible API and machine contention and is descriptive, not a controlled speed benchmark.",
+    "The no-plugin control is configured as stateless BETWEEN runs; native DSH can write and reuse persistent files when its workspace is retained. This comparison measures cumulative reusable memory plus routing, not routing alone.",
+    "This does not evaluate full native DSH CLI, new-project transfer, or long-term convergence."
+  ]
+}

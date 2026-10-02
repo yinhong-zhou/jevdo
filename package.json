@@ -1,0 +1,56 @@
+{
+  "name": "jevaction",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": { ".": "./dist/index.js", "./cordis.patch.yml": "./cordis.patch.yml", "./package.json": "./package.json" },
+  "files": ["dist/index.js", "prompts", "cordis.patch.yml", "THIRD_PARTY_NOTICES.md", "LICENSE", "README.md"],
+  "license": "MIT",
+  "dsh": { "bundle": { "patch": "./cordis.patch.yml" } },
+  "description": "A lightweight agent loop with Jev decisions and persistent reusable actions",
+  "engines": {
+    "node": ">=24.14.0"
+  },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "node scripts/build.mjs",
+    "prepack": "npm run build",
+    "test": "node --import tsx --test test/*.test.ts",
+    "demo": "node --import tsx --env-file-if-exists=.env src/cli.ts demo",
+    "doctor": "node --import tsx --env-file-if-exists=.env src/cli.ts doctor",
+    "start": "node --import tsx --env-file-if-exists=.env src/cli.ts",
+    "eval": "node --import tsx --env-file-if-exists=.env scripts/evaluate.ts",
+    "eval:learning": "node --import tsx --env-file-if-exists=.env scripts/live-learning.ts",
+    "eval:report": "node scripts/report.mjs",
+    "eval:subset": "node --import tsx --env-file-if-exists=.env scripts/evaluate-subset.ts",
+    "eval:subset:report": "node --import tsx scripts/subset-report.ts",
+    "eval:developer": "node --import tsx --env-file-if-exists=.env scripts/evaluate-developer.ts",
+    "eval:developer:report": "node --import tsx --env-file-if-exists=.env scripts/developer-report.ts"
+  },
+  "dependencies": {
+    "@deepseek-ai/cordis": "4.0.4",
+    "@deepseek-ai/dsh-agent-loop": "0.2.0-rc.1",
+    "@deepseek-ai/dsh-brand": "0.2.0-rc.1",
+    "@deepseek-ai/dsh-session-persistence-jsonl": "0.2.0-rc.1",
+    "@deepseek-ai/dsh-util-values": "0.2.0-rc.1",
+    "@deepseek-ai/schemastery": "3.18.4",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "24.7.2",
+    "esbuild": "0.25.10",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.0-rc.1",
+    "@deepseek-ai/dsh-llm": "0.2.0-rc.1",
+    "@deepseek-ai/dsh-scope": "0.2.0-rc.1",
+    "@deepseek-ai/dsh-session": "0.2.0-rc.1",
+    "@deepseek-ai/dsh-session-persistence": "0.2.0-rc.1",
+    "@deepseek-ai/dsh-session-projection": "0.2.0-rc.1",
+    "@deepseek-ai/dsh-system-prompt": "0.2.0-rc.1",
+    "@deepseek-ai/dsh-tools": "0.2.0-rc.1"
+  }
+}

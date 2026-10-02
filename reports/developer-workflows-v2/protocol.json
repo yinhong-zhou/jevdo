@@ -1,0 +1,96 @@
+{
+  "version": 2,
+  "revision": "v2",
+  "createdAt": "2026-10-02T09:47:33.209Z",
+  "title": "Active Action authoring, effect refresh and mixed developer handoffs",
+  "officialBenchmarkScore": false,
+  "fixtureSource": "Locally authored executable developer project; no external benchmark attribution.",
+  "sourceHashes": {
+    "src/controller.ts": "adb8c3caa12740d5024fc8c6287f4d880f22e388d13264b8cab01db664c43ab9",
+    "src/decision.ts": "e01c9c3f0f4ec77690cdc55ac9ef1d57d4d28fe114c95c6238a8056f7336f9b9",
+    "src/contracts.ts": "fe88734dc46be287f0d2984cfbea0fb415ae5181c161d4e7f6fc001b6a8907a8",
+    "src/dsh/policy.ts": "ee2b1cc60ad4f69a9a92f7aaa54bf20997b1818bd0e87f208bf46a1dd80e5057",
+    "src/dsh/runtime.ts": "87b3f46a9512f58b5b94c3baa0346c3a8770eddf4e529242ac0ed9a0b91ec165",
+    "src/vendor/dsh-loop/agent.ts": "5630a81aff0bad598e57daf9959db31a56e749a7586a5245c88ea39127dddd97",
+    "prompts/action-authoring.md": "d3475736a94c2c7d67954559047ca113323f21c942f6b2b2269a23e8407425df",
+    "benchmarks/developer-workflows/dev.mjs": "9973772c67917dd3bdeac1bdf99fb55b62a66058d5529a9007e28144a8e7f93f",
+    "scripts/developer-fixtures.ts": "ec367ad1459e2dbfed96afd13ac03c029b19072bbf617afdd0bd710f673eb86c",
+    "scripts/evaluate-developer.ts": "18f53752c990762e5d7b101029f9145ad50e5529130b021eecfcf908d511c69b",
+    "scripts/developer-requirements.ts": "64d5fc53eb88eb7c50d11fdb14d8e285e45468c02551df0033fe4b39d68c4496",
+    "src/executor.ts": "a66ef64177640b726a07bdb05adf250a8ed3b45e6e956bb3648e166399270f22",
+    "src/store.ts": "9a830a4f877b0512c316d77ee653f569a500f35c72efbea2a9322a438754075f",
+    "src/learning.ts": "9a7ff9e2af81d6af9d8b81ef529939d21a6c1131e75cd77eb10bfe712d95aa76",
+    "src/tools.ts": "a2640495541c51e714c55299799edbea75871735752bf4b2e230533b9eacfc24"
+  },
+  "groups": {
+    "official-clean": "Unmodified pinned DSH loop in the same minimal headless host, no Action runtime, authoring prompt or Jev; one fresh run per scenario, not a full native CLI benchmark.",
+    "required": "JevAction; each normal task prompt explicitly requests saving and validating useful operations. Own empty initial library retained between fresh sessions.",
+    "autonomous": "JevAction; no per-task user instruction to save. Plugin policy actively encourages maintaining reusable developer operations, with discretion to skip unsuitable actions and an explicit no-save override. Own empty initial library retained between fresh sessions."
+  },
+  "design": {
+    "normalCases": [
+      "start-stack",
+      "stop-stack",
+      "restart-backend",
+      "test-build",
+      "generate-client",
+      "publish-local",
+      "rollback-local",
+      "partial-stack"
+    ],
+    "pluginRounds": 3,
+    "baselineRounds": 1,
+    "probesAfterLearning": [
+      "start-and-edit",
+      "start-script",
+      "start-script-again",
+      "changed-schema",
+      "edit-generate-explain",
+      "test-edit-test",
+      "no-save",
+      "explain-only",
+      "unknown-project",
+      "backend-failure",
+      "changed-script"
+    ],
+    "totalRows": 89,
+    "freshSessionEveryTask": true,
+    "mainModel": "deepseek-flash",
+    "jevModel": "jev-latest",
+    "temperature": 0,
+    "thinking": "disabled",
+    "maxOutputTokens": 3000,
+    "maxSteps": 24,
+    "timeoutMs": 240000,
+    "concurrentGroups": 3,
+    "initialization": "All arms get identical project scripts and README, not saved Actions. Tests measure discovering, registering and reusing existing commands, not inventing the scripts.",
+    "persistence": "Plugin groups each retain their library and project scripts across tasks and rounds. The baseline gets a new project per task. No cross-group sharing or hand-seeded Actions.",
+    "reset": "Restore the same source/config/schema, reset local deployment pointer, remove designated test/build/generated artifacts and reset owned services before every task. No previous output or chat history can satisfy the next task.",
+    "preconditions": "Stop/restart cases begin with both services running; partial-stack begins with backend running; other normal cases begin stopped. Runtime instance IDs, ports and timestamps necessarily vary.",
+    "order": "Each group runs sequentially; three isolated groups run concurrently. Plugin groups run the same eight cases in the same order for three rounds, then the eleven listed probes once. Cross-case transfer within a round is allowed. start-script and start-script-again share exactly the same prompt and initial service state.",
+    "probes": "Mixed code edit; existing full-stack script then repeat; changed input schema; edit schema then generate and explain; test before and after source edit; explicit no-save; explain without executing; unknown target project; backend failure; script implementation change.",
+    "routing": "Jev choice is used without a confidence veto. Same full assembled model input is supplied to Jev. Invalid responses, stale binding, execution failure and bounded action sequences can still delegate to the model.",
+    "noManualRepairs": true,
+    "rolloutsPerCell": 1
+  },
+  "success": "Independent HTTP/process-instance, event-order, file/content assertions AND completed turn AND explicit task constraints (no-save, existing script use, repeated tests, final main-model explanation for explanatory requests). Explanation checks are presence/keyword proxies, not comprehensive semantic grading. Evaluator targets stay outside the workspace.",
+  "changesFromV1": "Active authoring prompt and tool-schema guidance; implementation-only watchedFiles can be empty; repeatPolicy allows safe rechecking and rerunning state operations; stronger Jev DONE criteria. Multiple changes tested together, not an attribution ablation. Fixture adds existing full-stack script and source hashes in test event logs; this is not a bit-identical V1 rerun.",
+  "cost": {
+    "userLimitCny": null,
+    "authorization": "User removed the monetary cap; retain usage and cost accounting.",
+    "ratesCnyPerMillion": {
+      "mainInput": 2,
+      "mainOutput": 8,
+      "jevInput": 0.5
+    },
+    "note": "Cost estimates at these recorded rates; not a provider invoice. Unreported usage keeps the pre-request estimate."
+  },
+  "limitations": [
+    "Small purpose-built project and one rollout per cell; no general benchmark or significance claim.",
+    "Existing scripts make tasks approachable to both arms. The clean baseline can use them directly.",
+    "Fresh baseline versus persistent plugin library measures cumulative reuse plus routing; not routing alone.",
+    "Concurrent latency includes provider and local contention; not a controlled speed test.",
+    "Local publication is reproducible filesystem work, not real production deployment.",
+    "No baseline variance estimate, cross-project transfer or long-term library maintenance experiment."
+  ]
+}

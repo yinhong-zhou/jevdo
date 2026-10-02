@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-02T08:41:21.795Z",
+  "validRows": 21,
+  "newPaidRuns": 15,
+  "reusedColdRows": 6,
+  "cleanBaselineRuns": 3,
+  "sameInputBytes": true,
+  "sameVerificationTargets": true,
+  "identicalPromptsWithinGroup": true,
+  "cumulativeStateRetained": true,
+  "baselineHasNoActionRuntimeOrPromptOrTools": true,
+  "requestAttributionMatches": true,
+  "everyPaidRequestAccounted": true,
+  "credentialScanPassed": true,
+  "scannedFiles": 21
+}

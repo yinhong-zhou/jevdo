@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Preserve archived experiment evidence and source fingerprints byte for byte.
+/reports/** -text

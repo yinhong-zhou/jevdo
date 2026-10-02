@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "title": "Public-task-derived Action learning and cross-session reuse pilot",
+  "officialBenchmarkScore": false,
+  "upstream": "https://github.com/harbor-framework/terminal-bench-2-1",
+  "revision": "7131e4375048a0e408a8fb404b5f499d726b695b",
+  "sourceTasks": [
+    {
+      "task": "log-summary-date-ranges",
+      "url": "https://github.com/harbor-framework/terminal-bench-2-1/blob/7131e4375048a0e408a8fb404b5f499d726b695b/tasks/log-summary-date-ranges/instruction.md",
+      "sha256": "c1d4516ad4ec2238209740eaf01291df9ab48b0028a3fc5df383c6f831453484"
+    },
+    {
+      "task": "multi-source-data-merger",
+      "url": "https://github.com/harbor-framework/terminal-bench-2-1/blob/7131e4375048a0e408a8fb404b5f499d726b695b/tasks/multi-source-data-merger/instruction.md",
+      "sha256": "d1d28bb6e37f7a255a1b7f78aae8591f35c0494f33e4913392424ad954aab944"
+    },
+    {
+      "task": "regex-log",
+      "url": "https://github.com/harbor-framework/terminal-bench-2-1/blob/7131e4375048a0e408a8fb404b5f499d726b695b/tasks/regex-log/instruction.md",
+      "sha256": "4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c"
+    }
+  ],
+  "selection": "Three portable data-processing workflows chosen before API runs; convenience subset, not a random or representative sample.",
+  "adaptations": [
+    "Windows workspace paths instead of original container /app paths.",
+    "Locally generated small inputs; original benchmark datasets, verifiers and oracle solutions are not used.",
+    "Log task reads the reference date from an input file.",
+    "Regex task additionally runs its pattern on variable logs and writes matches.json.",
+    "Merger retains JSON, CSV, Parquet, priority resolution and conflict-report requirements."
+  ],
+  "design": {
+    "workflows": 3,
+    "savingConditions": [
+      "required",
+      "autonomous"
+    ],
+    "learningRuns": 6,
+    "heldoutVariantsPerLearnedSnapshot": 2,
+    "routingArms": [
+      "default",
+      "jevaction"
+    ],
+    "warmRuns": 24,
+    "totalPlannedRuns": 30,
+    "coldArm": "jevaction",
+    "snapshot": "Each cold snapshot is restored at identical absolute paths before EVERY warm run. Both arms see identical files, Action records, receipts and authoring prompt.",
+    "warmMemory": "Fresh DSH host and empty session; no prior conversations, output artifacts or previous warm improvements carried over.",
+    "baseline": "Official DSH Loop WITH the same learned Action tools and library; isolates routing, not total Action vs no-Action benefit.",
+    "order": "Learning condition order alternates by workflow; warm routing-arm order alternates by variant/workflow/condition.",
+    "repeatedSeeds": 1,
+    "mainModel": "deepseek-flash",
+    "thinking": "disabled",
+    "temperature": 0,
+    "maxOutputTokensPerRequest": 3000,
+    "maxSteps": {
+      "cold": 20,
+      "warm": 12
+    },
+    "timeoutMs": {
+      "cold": 240000,
+      "warm": 150000
+    },
+    "errors": "All attempts and failures retained. No outcome-driven prompt fixes or reruns. Budget exhaustion is reported."
+  },
+  "success": "External deterministic output checks AND completed turn AND unmodified inputs; independent of the Action self-verifier.",
+  "actionMeasures": [
+    "Saved recipes",
+    "Active recipes",
+    "External cold task success",
+    "Learned recipe executions on warm tasks",
+    "Zero-main-model successful warm tasks"
+  ],
+  "cost": {
+    "userCeilingCny": 10,
+    "stopCeilingCny": 9,
+    "inclusion": "All learning and warm API requests, including failures and retained ambiguous reservations.",
+    "deepseekRates": "CNY 2/M input (no cache discount), 8/M output: official peak Flash prices.",
+    "jevRates": "Guard uses CNY 0.50/M input, above published USD 0.042/M at conservative USD/CNY=8; output free.",
+    "caveat": "Token-based upper estimate, not a Jev invoice. DeepSeek account balance delta is recorded separately; concurrent account use can contaminate that delta.",
+    "sources": [
+      "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
+    ]
+  },
+  "limitations": [
+    "Small synthetic inputs derived from public task specifications, not official Terminal-Bench results.",
+    "Within-project workflow reuse; no claim about new-project recipe transfer.",
+    "Only one learner rollout per condition and workflow.",
+    "Local minimal DSH headless host, not full native CLI / Docker benchmark harness.",
+    "Both conditions get the existing Action authoring system prompt; autonomous means no explicit USER save requirement."
+  ],
+  "dataCorrection": {
+    "reason": "Variant 1 of log-summary wrote a zero-event log as one blank line, contradicting the per-line event specification.",
+    "change": "Empty logs are now zero-byte files. No prompts, models, learned scripts, Action records or expected counts changed.",
+    "reruns": "Only four affected condition × routing pairs are rerun from the same cold snapshots; originals retained and all costs included."
+  }
+}

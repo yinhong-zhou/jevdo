@@ -1,0 +1,14 @@
+{
+  "auditedAt": "2026-10-02T08:41:21.906Z",
+  "validRuns": 30,
+  "allPaidRuns": 34,
+  "matchedPairs": 12,
+  "identicalActionLibraries": true,
+  "identicalInputs": true,
+  "identicalExternalTargets": true,
+  "allRequestsAccounted": true,
+  "budgetUpperCny": 6.699508000000006,
+  "credentialScanPassed": true,
+  "scannedFiles": 45,
+  "note": "Integrity checks of recorded experiment data; this does not rerun paid models or reconstruct final artifacts."
+}

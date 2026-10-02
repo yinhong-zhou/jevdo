@@ -1,0 +1,9 @@
+# The stock row is disabled. DSH treats `name` in an id-targeted patch as an
+# identity assertion, not as a replacement; a new row supplies our driver.
+- id: agent-loop
+  disabled: true
+- insert:
+    - id: jevaction-loop
+      name: jevaction
+      config:
+        agents: []

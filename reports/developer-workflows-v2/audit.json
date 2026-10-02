@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-02T09:54:54.275Z",
+  "validRows": 89,
+  "oneBaselinePerTask": true,
+  "emptyInitialLibraries": true,
+  "libraryRetained": true,
+  "sameNormalTaskInputsAndPrompts": true,
+  "sourceHashesMatch": true,
+  "cleanBaseline": true,
+  "allCallsAndCostsAttributed": true,
+  "fullContextPresent": true,
+  "credentialScanPassed": true,
+  "scannedFiles": 107
+}
