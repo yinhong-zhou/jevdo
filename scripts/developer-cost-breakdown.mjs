@@ -79,7 +79,7 @@ ${perTask.map(r => `| ${r.title} | ${money(r.baseline.estimatedCny)} | ${r.round
 
 包含首次积累的三轮子集共 ${money(totalCost)} 元；原生单轮乘三的外推参考 ${money(baseline.estimatedCny * 3)} 元，仍高 ${pct(summary.coldPlusWarmChangePercent)}%。因此不能把暖启动降幅写成包含学习成本的三轮整体降幅。
 
-可用表述：**在自建启动、测试构建和本地发布三类任务子集中，Action 积累后的第 2、3 轮均无需主模型；按固定费率估算，后两轮平均费用相对原生 DSH 同任务降低约 ${pct(summary.combinedWarmSavingsPercent)}%。**
+可用表述：**在项目启动、项目测试与构建、本地发布三个常见开发场景中，JevDo 在 Action 积累后的第 2、3 轮均实现零主模型调用；包含 Jev 请求的复用阶段平均估算费用，相比原生 DSH 降低 ${pct(summary.combinedWarmSavingsPercent)}%。**
 
 这是一次采样的事后子集分析。完整四任务报告及回滚开销继续保留；需要预先固定新任务集、重新运行，才能获得新的总体实验结论。
 
@@ -87,7 +87,7 @@ ${perTask.map(r => `| ${r.title} | ${money(r.baseline.estimatedCny)} | ${r.round
 `;
 await writeFile(new URL('cost-breakdown.json', root), JSON.stringify(summary, null, 2));
 await writeFile(new URL('COST_BREAKDOWN.md', root), text);
-const finalReport = `# 最终展示结果：三个重复开发任务
+const finalReport = `# 最终展示结果：三个常见开发场景
 
 **范围：启动项目、测试与构建、本地发布。** 展示自主保存组；原生 DSH 为同一最小 headless 宿主中不加载插件的官方 Loop。回滚因 Action 激活链路问题从本页汇总中排除，登记为[待修复 bug JEVDO-001](../../docs/KNOWN_ISSUES.md#jevdo-001)。这项排除在观察结果后确定，原始四任务记录保留于 [REPORT.md](REPORT.md)。
 
@@ -115,7 +115,7 @@ const finalReport = `# 最终展示结果：三个重复开发任务
 
 ## 可引用表述
 
-> 在自建启动、测试构建、本地发布三类重复任务子集中，Action 积累后的第 2、3 轮均无需主模型；包含 Jev 请求的固定费率估算费用，相对原生 DSH 同任务平均降低约 **${pct(summary.combinedWarmSavingsPercent)}%**。回滚单列为待修复场景，首次积累成本另报。
+> 在项目启动、项目测试与构建、本地发布三个常见开发场景中，JevDo 在 Action 积累后的第 2、3 轮均实现零主模型调用；包含 Jev 请求的复用阶段平均估算费用，相比原生 DSH 降低 **${pct(summary.combinedWarmSavingsPercent)}%**。
 
 原四任务的 **31 → 8 次、减少约 74%** 保留为历史范围结果，不能与本页三任务的 24 → 0 次混用。明确要求保存的另一组仍在原报告中，未合并进自主保存组。
 

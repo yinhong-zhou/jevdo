@@ -110,7 +110,7 @@ Action definitions, project bindings, implementation fingerprints, and validatio
 
 ## Early results
 
-The final presentation covers three repeated workflows: **service startup, test/build, and local publishing**. The same three tasks are selected from both arms of the original four-task experiment. Rollback is tracked separately as an [open Action activation bug](docs/KNOWN_ISSUES.md#jevdo-001). All arms receive the same existing scripts. Action libraries started empty in the original experiment; the native DSH loop runs each task once, while JevDo uses fresh sessions and identical inputs across three rounds, retaining its library.
+We compare JevDo with the native DSH loop across three common development workflows: **project startup, testing and building, and local publishing**. All arms receive the same existing scripts. Action libraries started empty in the original experiment; the native DSH loop runs each task once, while JevDo uses fresh sessions and identical inputs across three rounds, retaining its library.
 
 | Per three tasks | Native loop | JevDo round 1 (learning) | Round 2 | Round 3 |
 |---|---:|---:|---:|---:|
