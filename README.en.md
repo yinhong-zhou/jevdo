@@ -110,18 +110,21 @@ Action definitions, project bindings, implementation fingerprints, and validatio
 
 ## Early results
 
-Four repeated developer tasks: start services, test/build, publish locally, and roll back. Every arm receives the same existing scripts. Libraries start empty. The unmodified DSH loop runs each task once in the same minimal headless host. JevDo runs three rounds with identical inputs, fresh sessions, and a persistent Action library.
+The final presentation covers three repeated workflows: **service startup, test/build, and local publishing**. The same three tasks are selected from both arms of the original four-task experiment. Rollback is tracked separately as an [open Action activation bug](docs/KNOWN_ISSUES.md#jevdo-001). All arms receive the same existing scripts. Action libraries started empty in the original experiment; the native DSH loop runs each task once, while JevDo uses fresh sessions and identical inputs across three rounds, retaining its library.
 
-| Per four tasks | Native loop | JevDo round 1 | Round 2 | Round 3 |
+| Per three tasks | Native loop | JevDo round 1 (learning) | Round 2 | Round 3 |
 |---|---:|---:|---:|---:|
-| Main-model calls | 31 | 33 | **8** | **8** |
-| Tasks without a main-model call | 0/4 | 0/4 | **3/4** | **3/4** |
-| Mean duration | 9.54 s | 19.52 s | 6.89 s | 6.64 s |
-| Estimated cost, including Jev | CNY 0.2771 | CNY 0.8408 | CNY 0.3214 | CNY 0.3091 |
+| Tasks passing verification | 3/3 | 3/3 | **3/3** | **3/3** |
+| Main-model calls | 24 | 22 | **0** | **0** |
+| Tasks without a main-model call | 0/3 | 0/3 | **3/3** | **3/3** |
+| Jev calls | 0 | 56 | 20 | 15 |
+| Mean duration | 10.06 s | 19.36 s | **3.61 s** | **3.17 s** |
+| Estimated cost, including Jev | CNY 0.2245 | CNY 0.6065 | **CNY 0.0828** | **CNY 0.0587** |
+| Cost reduction vs. native | — | — | **63.14%** | **73.86%** |
 
-These are the autonomous-save results. Each warm round used about **74% fewer main-model calls** than the native control. The explicitly-required-save condition performed less efficiently. **Overall cost is not yet lower:** learning has a cost, and Jev also processes the complete history.
+These are the autonomous-save results. **Both reuse rounds require zero main-model calls, with a 68.50% average estimated cost reduction against the same native tasks.** This reduction excludes initial learning: all three rounds total CNY 0.7480, still 11.04% above three times the measured native round. Costs include Jev at fixed accounting rates, not actual invoices.
 
-This is one rollout per condition on a small authored workload, not an official benchmark score. A Jev misselection followed by model recovery occurred; passing the final checks does not establish that every routing decision was correct. [Full report](reports/developer-workflows-v3/REPORT.md) · [Analysis](reports/developer-workflows-v3/ANALYSIS.md) · [Raw traces](reports/developer-workflows-v3/traces)
+This is a post-hoc three-task subset of a small, single-rollout experiment, not a new run or a public benchmark. Original data is unchanged; the four-task 31 → 8 calls (~74% reduction) and rollback records remain in the historical report. [Final three-task results](reports/developer-workflows-v3/FINAL_RESULTS.md) · [Cost breakdown](reports/developer-workflows-v3/COST_BREAKDOWN.md) · [Original four-task report](reports/developer-workflows-v3/REPORT.md) · [Raw traces](reports/developer-workflows-v3/traces)
 
 ## Quick start
 

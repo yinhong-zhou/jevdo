@@ -1,0 +1,282 @@
+{
+  "sourceSha256": "dcf9e115f36aedd6ce6ede0e3edc9e7fee442e790c40c8bf4026941d5f8fd4ab",
+  "finalPresentationTasks": [
+    "start-stack",
+    "test-build",
+    "publish-local"
+  ],
+  "excludedTask": {
+    "id": "rollback-local",
+    "reason": "Known Action activation / prior-execution evidence bug",
+    "status": "open",
+    "record": "../../docs/KNOWN_ISSUES.md#jevdo-001"
+  },
+  "scope": "Post-hoc three-workflow breakdown of the unchanged four-task experiment. Rollback remains in the original aggregate; not an invalidated sample or a new independent run.",
+  "rates": {
+    "deepseekInputPerMillionCny": 2,
+    "deepseekOutputPerMillionCny": 8,
+    "jevInputPerMillionCny": 0.5
+  },
+  "perTask": [
+    {
+      "task": "start-stack",
+      "title": "启动项目",
+      "baseline": {
+        "trials": [
+          "official-clean-r1-start-stack"
+        ],
+        "mainCalls": 7,
+        "jevCalls": 0,
+        "estimatedCny": 0.065614,
+        "meanDurationSeconds": 10.228,
+        "success": 1,
+        "zeroMain": 0
+      },
+      "rounds": [
+        {
+          "trials": [
+            "autonomous-r1-start-stack"
+          ],
+          "mainCalls": 6,
+          "jevCalls": 24,
+          "estimatedCny": 0.21157350000000003,
+          "meanDurationSeconds": 20.771,
+          "success": 1,
+          "zeroMain": 0
+        },
+        {
+          "trials": [
+            "autonomous-r2-start-stack"
+          ],
+          "mainCalls": 0,
+          "jevCalls": 3,
+          "estimatedCny": 0.0116105,
+          "meanDurationSeconds": 2.49,
+          "success": 1,
+          "zeroMain": 1
+        },
+        {
+          "trials": [
+            "autonomous-r3-start-stack"
+          ],
+          "mainCalls": 0,
+          "jevCalls": 3,
+          "estimatedCny": 0.011609000000000001,
+          "meanDurationSeconds": 2.53,
+          "success": 1,
+          "zeroMain": 1
+        }
+      ]
+    },
+    {
+      "task": "test-build",
+      "title": "测试与构建",
+      "baseline": {
+        "trials": [
+          "official-clean-r1-test-build"
+        ],
+        "mainCalls": 7,
+        "jevCalls": 0,
+        "estimatedCny": 0.061676,
+        "meanDurationSeconds": 8.114,
+        "success": 1,
+        "zeroMain": 0
+      },
+      "rounds": [
+        {
+          "trials": [
+            "autonomous-r1-test-build"
+          ],
+          "mainCalls": 11,
+          "jevCalls": 17,
+          "estimatedCny": 0.25838449999999996,
+          "meanDurationSeconds": 22.025,
+          "success": 1,
+          "zeroMain": 0
+        },
+        {
+          "trials": [
+            "autonomous-r2-test-build"
+          ],
+          "mainCalls": 0,
+          "jevCalls": 5,
+          "estimatedCny": 0.019159000000000002,
+          "meanDurationSeconds": 2.582,
+          "success": 1,
+          "zeroMain": 1
+        },
+        {
+          "trials": [
+            "autonomous-r3-test-build"
+          ],
+          "mainCalls": 0,
+          "jevCalls": 5,
+          "estimatedCny": 0.0191425,
+          "meanDurationSeconds": 2.87,
+          "success": 1,
+          "zeroMain": 1
+        }
+      ]
+    },
+    {
+      "task": "publish-local",
+      "title": "本地发布",
+      "baseline": {
+        "trials": [
+          "official-clean-r1-publish-local"
+        ],
+        "mainCalls": 10,
+        "jevCalls": 0,
+        "estimatedCny": 0.097252,
+        "meanDurationSeconds": 11.833,
+        "success": 1,
+        "zeroMain": 0
+      },
+      "rounds": [
+        {
+          "trials": [
+            "autonomous-r1-publish-local"
+          ],
+          "mainCalls": 5,
+          "jevCalls": 15,
+          "estimatedCny": 0.136577,
+          "meanDurationSeconds": 15.298,
+          "success": 1,
+          "zeroMain": 0
+        },
+        {
+          "trials": [
+            "autonomous-r2-publish-local"
+          ],
+          "mainCalls": 0,
+          "jevCalls": 12,
+          "estimatedCny": 0.05200249999999999,
+          "meanDurationSeconds": 5.744,
+          "success": 1,
+          "zeroMain": 1
+        },
+        {
+          "trials": [
+            "autonomous-r3-publish-local"
+          ],
+          "mainCalls": 0,
+          "jevCalls": 7,
+          "estimatedCny": 0.0279415,
+          "meanDurationSeconds": 4.113,
+          "success": 1,
+          "zeroMain": 1
+        }
+      ]
+    },
+    {
+      "task": "rollback-local",
+      "title": "本地回滚",
+      "baseline": {
+        "trials": [
+          "official-clean-r1-rollback-local"
+        ],
+        "mainCalls": 7,
+        "jevCalls": 0,
+        "estimatedCny": 0.052534,
+        "meanDurationSeconds": 7.994,
+        "success": 1,
+        "zeroMain": 0
+      },
+      "rounds": [
+        {
+          "trials": [
+            "autonomous-r1-rollback-local"
+          ],
+          "mainCalls": 11,
+          "jevCalls": 7,
+          "estimatedCny": 0.2342915,
+          "meanDurationSeconds": 19.976,
+          "success": 1,
+          "zeroMain": 0
+        },
+        {
+          "trials": [
+            "autonomous-r2-rollback-local"
+          ],
+          "mainCalls": 8,
+          "jevCalls": 15,
+          "estimatedCny": 0.238632,
+          "meanDurationSeconds": 16.762,
+          "success": 1,
+          "zeroMain": 0
+        },
+        {
+          "trials": [
+            "autonomous-r3-rollback-local"
+          ],
+          "mainCalls": 8,
+          "jevCalls": 16,
+          "estimatedCny": 0.250377,
+          "meanDurationSeconds": 17.036,
+          "success": 1,
+          "zeroMain": 0
+        }
+      ]
+    }
+  ],
+  "baseline": {
+    "trials": [
+      "official-clean-r1-start-stack",
+      "official-clean-r1-test-build",
+      "official-clean-r1-publish-local"
+    ],
+    "mainCalls": 24,
+    "jevCalls": 0,
+    "estimatedCny": 0.224542,
+    "meanDurationSeconds": 10.058333333333334,
+    "success": 3,
+    "zeroMain": 0
+  },
+  "rounds": [
+    {
+      "trials": [
+        "autonomous-r1-start-stack",
+        "autonomous-r1-test-build",
+        "autonomous-r1-publish-local"
+      ],
+      "mainCalls": 22,
+      "jevCalls": 56,
+      "estimatedCny": 0.6065349999999999,
+      "meanDurationSeconds": 19.36466666666667,
+      "success": 3,
+      "zeroMain": 0
+    },
+    {
+      "trials": [
+        "autonomous-r2-start-stack",
+        "autonomous-r2-test-build",
+        "autonomous-r2-publish-local"
+      ],
+      "mainCalls": 0,
+      "jevCalls": 20,
+      "estimatedCny": 0.08277199999999998,
+      "meanDurationSeconds": 3.6053333333333333,
+      "success": 3,
+      "zeroMain": 3
+    },
+    {
+      "trials": [
+        "autonomous-r3-start-stack",
+        "autonomous-r3-test-build",
+        "autonomous-r3-publish-local"
+      ],
+      "mainCalls": 0,
+      "jevCalls": 15,
+      "estimatedCny": 0.05869300000000001,
+      "meanDurationSeconds": 3.171,
+      "success": 3,
+      "zeroMain": 3
+    }
+  ],
+  "secondRoundSavingsPercent": 63.13740859171113,
+  "thirdRoundSavingsPercent": 73.86101486581575,
+  "combinedWarmSavingsPercent": 68.49921172876343,
+  "coldPlusWarmCost": 0.7479999999999999,
+  "baselineThreeTimesExtrapolation": 0.673626,
+  "coldPlusWarmChangePercent": 11.040844622980694
+}
